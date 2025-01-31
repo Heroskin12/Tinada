@@ -6,10 +6,20 @@ import ProfileScreen from '../screens/main/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
-export default function MainNavigator() {
+export default function MainNavigator({ onLogout }) {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route, navigation }) => ({
+        headerShown: true,
+        headerRight: () => (
+          <Ionicons
+            name="log-out-outline"
+            size={24}
+            color="#FF6B6B"
+            style={{ marginRight: 15 }}
+            onPress={onLogout}
+          />
+        ),
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 

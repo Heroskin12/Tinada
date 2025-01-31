@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native';
 import LoginScreen from './screens/auth/LoginScreen';
 import MainNavigator from './navigation/MainNavigator';
 
@@ -14,16 +16,26 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!isAuthenticated ? (
-          <Stack.Screen name="Login">
-            {(props) => <LoginScreen {...props} onLogin={handleLogin} />}
-          </Stack.Screen>
-        ) : (
-          <Stack.Screen name="Main" component={MainNavigator} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={styles.container}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {!isAuthenticated ? (
+            <Stack.Screen name="Login">
+              {(props) => <LoginScreen {...props} onLogin={handleLogin} />}
+            </Stack.Screen>
+          ) : (
+            <Stack.Screen name="Main">
+              {(props) => <MainNavigator {...props} onLogout={() => setIsAuthenticated(false)} />}
+            </Stack.Screen>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
